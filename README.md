@@ -1,4 +1,4 @@
-# Laravel-Template
+# Algolia With Laravel
 
 ## Required platform
 
