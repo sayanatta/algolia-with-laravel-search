@@ -1,4 +1,4 @@
-# Algolia With Laravel
+# Algolia With Laravel Search
 
 ## Required platform
 
