@@ -3,15 +3,15 @@
     <div class="carts">
         <form action="{{ route('search') }}" method="post">
             @csrf
-            <div class="row mt-2">
-                <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-9 mt-2">
                     <input type="text" class="form-control" value="{{ $search }}" name="search" id="search"
                         placeholder="Search here..." autocomplete="off">
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-1 mt-2">
                     <button type="submit" id="search_submit" class="btn btn-success">Search</button>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-1 mt-2">
                     <div class="dropdown">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -67,8 +67,16 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-1 mt-2">
                     <a href="{{ route('backend_search') }}" class="btn btn-warning">Clear</a>
+                </div>
+                <div class="col-md-3 mt-2">
+                    <input type="text" class="form-control" value="{{ $min_price }}" name="min_price" id="min_price"
+                        placeholder="Min price" autocomplete="off">
+                </div>
+                <div class="col-md-3 mt-2">
+                    <input type="text" class="form-control" value="{{ $max_price }}" name="max_price" id="max_price"
+                        placeholder="Max price" autocomplete="off">
                 </div>
             </div>
         </form>

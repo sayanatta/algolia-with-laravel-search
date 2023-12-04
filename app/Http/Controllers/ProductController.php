@@ -115,17 +115,26 @@ class ProductController extends Controller
     {
         $query = null;
         $search = null;
+        $min_price = null;
+        $max_price = null;
         if (isset($request->query()['query'])) {
             $query = $request->query()['query'];
             $search = str_replace('-', ' ', $query);
         }
         $products = Product::search($query);
+        if (isset($request->query()['min_price']) && !empty($request->query()['min_price']) && isset($request->query()['max_price']) && !empty($request->query()['max_price'])) {
+            $products = $products->whereBetween('price', [$request->query()['min_price'], $request->query()['max_price']]);
+            $min_price = $request->query()['min_price'];
+            $max_price = $request->query()['max_price'];
+        }
+
         if (isset($request->query()['filter']) && !empty($request->query()['filter'])) {
             if ($request->query()['filter'] == 'a_to_z') {
                 $products = $products->orderBy('name', 'ASC');
+                // $products = $products->setSettings(['customRanking' => ['asc(name)']]);
             }
             if ($request->query()['filter'] == 'z_to_a') {
-                $products = $products->orderBy('name', 'DESC');
+                // $products = $products->orderBy('name', 'DESC');
             }
             if ($request->query()['filter'] == 'low_to_high') {
                 $products = $products->orderBy('price', 'ASC');
@@ -135,14 +144,16 @@ class ProductController extends Controller
             }
         }
         $products = $products->get();
-        return view('product.backend-search', compact('products', 'search'));
+        return view('product.backend-search', compact('products', 'search', 'min_price', 'max_price'));
     }
 
     public function search(Request $request)
     {
         $query = Str::slug($request->search);
         $filter = $request->filter;
-        $route = route('backend_search') . '?query=' . $query . '&filter=' . $filter;
+        $min_price = $request->min_price;
+        $max_price = $request->max_price;
+        $route = route('backend_search') . '?query=' . $query . '&filter=' . $filter . '&min_price=' . $min_price . '&max_price=' . $max_price;
         return redirect($route);
     }
 }
